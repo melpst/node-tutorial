@@ -6,12 +6,19 @@ const morgan = require('morgan');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+const routes = require('./app/routes.js');
+routes(app);
 
 const configDB = require('./config/database.js');
 mongoose.connect(configDB.url);
 
 app.use(morgan('dev'));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({
+	extended: true 
+}));
 app.use(session({
 	secret: 'heool',
 	saveUninitialized: true,
@@ -25,8 +32,8 @@ app.use(session({
 // 	console.log(req.session);
 // });
 
-const routes = require('./app/routes.js');
-routes(app);
+
+
 
 app.listen(port);
 console.log('server run on port '+port);
