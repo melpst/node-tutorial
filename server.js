@@ -7,9 +7,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
 const routes = require('./app/routes.js');
-routes(app);
 
 const configDB = require('./config/database.js');
 mongoose.connect(configDB.url);
@@ -24,6 +22,9 @@ app.use(session({
 	saveUninitialized: true,
 	resave: true
 }));
+app.set('view engine', 'ejs');
+
+
 
 // app.use('/', function(req,res){
 // 	res.send('hello, world');
@@ -32,8 +33,7 @@ app.use(session({
 // 	console.log(req.session);
 // });
 
-
-
+routes(app);
 
 app.listen(port);
 console.log('server run on port '+port);
